@@ -1,0 +1,132 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+body {
+  width:auto;
+  height:850px;
+}
+
+.screen {
+  height:432px;
+  width:480px;
+  margin: 100px auto;
+  border: 1px solid black;
+  font-family: 'VT323';
+  position: relative;
+}
+
+h1 {
+  font-size: 48px;
+  padding:10px 0 0 20px;
+}
+
+h2 {
+  font-size:46px;
+  padding:0 0 0 20px;
+  margin-bottom: 7px;
+}
+
+.divider {
+  width:7.5px;
+  height:432px;
+  position: absolute;
+  top:0;
+  right:150px;
+  background-color: black;
+}
+.thinHorizontal {
+  width:150px;
+  height:2px;
+  position: absolute;
+  top:225px;
+  right:0;
+  background-color: black;
+}
+.thickHorizontal {
+  width:150px;
+  height:7.5px;
+  position: absolute;
+  top:230px;
+  right:0;
+  background-color: black;
+}
+
+.options {
+  height:200px;
+  width:150px;
+  position: absolute;
+  bottom:0;
+  right:0;
+}
+
+.optionText {
+  padding-left: 50px;
+  margin-bottom:0;
+}
+
+.stats {
+  height:225px;
+  width:150px;
+  position: absolute;
+  top:0;
+  right:0;
+}
+
+.statsText {
+  padding-left: 70px;
+  margin: 10px 0 0 0;
+}
+
+.statNumber {
+  padding-left: 70px;
+}
+
+.active::before {
+  content:'›';
+}
+
+img {
+  -webkit-filter:grayscale(100%);
+  filter:grayscale(100%);
+  height:200px;
+  width:200px;
+  margin: 40px 0 0 20px;
+}
+
+.descStats {
+  width:50%;
+  float:right;
+}
+
+.descDivider {
+  height:5px;
+  width:100%;
+  background-color:black;
+  position: absolute;
+  left:0;
+  bottom:195px;
+}
+
+h3 {
+  font-size: 38px;
+  padding-left: 10px;
+  height:190px;
+}
