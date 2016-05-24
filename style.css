@@ -147,7 +147,7 @@ h3 {
 .gameboy {
   position: fixed;
   border-radius: 25px;
-  margin-left:28%;
+  margin-left:27.5%;
   height:975px;
   width:750px;
   background-color:teal;
@@ -268,4 +268,33 @@ p {
 #bButton {
 	bottom:70px;
 	right:225px;
+}
+
+.led-red {
+	position: absolute;
+	top:18%;
+	left:5%;
+  width: 17.5px;
+  height: 17.5px;
+  background-color: #940;
+  border-radius: 50%;
+  box-shadow: #000 0 -1px 7px 1px, inset #600 0 -1px 9px, #F00 0 2px 12px;
+}
+
+.power {
+	position: absolute;
+	left:5%;
+	top:22%;
+	font-family: sans-serif;
+	font-size: 20px;
+	color:#AFBBCB;
+}
+
+.curve {
+	position: absolute;
+	left:10%;
+	top:17.6%;
+	font-family: sans-serif;
+	font-size: 20px;
+	color:#AFBBCB;
 }

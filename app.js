@@ -18,7 +18,7 @@ var currentOffset = 0;
 var selectedPokemon;
 
 function pokemonSet () {
-  ajax('GET','http://pokeapi.co/api/v2/pokemon/?limit=7&offset=' + currentOffset, function(res) {
+  ajax('GET','https://pokeapi.co/api/v2/pokemon/?limit=7&offset=' + currentOffset, function(res) {
     for (var i = 0; i < 7; i++) {
       var h2Element = document.createElement('h2');
       var content = document.querySelector('.content');
@@ -42,7 +42,7 @@ function pokemonDescription (selectedPokemon) {
   var stats = document.createElement('div');
   stats.className = 'descStats';
   display.appendChild(stats);
-  ajax ('GET', 'http://pokeapi.co/api/v2/pokemon/' + selectedPokemon, function (res) {
+  ajax ('GET', 'https://pokeapi.co/api/v2/pokemon/' + selectedPokemon, function (res) {
     var sprite = document.createElement('img');
     sprite.src = res.sprites.front_default;
     display.appendChild(sprite);
@@ -71,7 +71,7 @@ function pokemonDescription (selectedPokemon) {
   var descDivider = document.createElement('div');
   descDivider.className = 'descDivider';
   display.appendChild(descDivider);
-  ajax ('GET', 'http://pokeapi.co/api/v2/pokemon-species/' + selectedPokemon, function (res) {
+  ajax ('GET', 'https://pokeapi.co/api/v2/pokemon-species/' + selectedPokemon, function (res) {
     document.querySelector('.genus').innerHTML = res.genera[0].genus.toUpperCase();
     var description = document.createElement('h3');
     description.innerHTML = res.flavor_text_entries[53].flavor_text;
