@@ -1,5 +1,7 @@
 "use strict";
 
+contentSet();
+
 function ajax (verb, url, handler) {
   var res = new XMLHttpRequest();
   res.onreadystatechange = function() {
@@ -37,9 +39,6 @@ function pokemonSet () {
 
 function pokemonDescription (selectedPokemon) {
   var display = document.querySelector('.screen');
-  for (var i = 0; i < 14; i++) {
-    display.removeChild(display.childNodes[0]);
-  }
   var stats = document.createElement('div');
   stats.className = 'descStats';
   display.appendChild(stats);
@@ -71,6 +70,67 @@ function pokemonDescription (selectedPokemon) {
   });
 }
 
+function contentSet() {
+  var display = document.querySelector('.screen');
+  var content = document.createElement('div');
+  content.className = 'content';
+  var contents = document.createElement('h1');
+  contents.innerHTML = 'CONTENTS';
+  var divider = document.createElement('div');
+  divider.className = 'divider';
+  var thinHorizontal = document.createElement('div');
+  thinHorizontal.className = 'thinHorizontal';
+  var thickHorizontal = document.createElement('div');
+  thickHorizontal.className = 'thickHorizontal';
+  var options = document.createElement('div');
+  options.className = 'options';
+  var data = document.createElement('h2');
+  data.className = 'optionText';
+  data.id = 'data';
+  data.innerHTML = 'DATA';
+  var cry = document.createElement('h2');
+  cry.className = 'optionText';
+  cry.id = 'cry';
+  cry.innerHTML = 'CRY';
+  var area = document.createElement('h2');
+  area.className = 'optionText';
+  area.id = 'area';
+  area.innerHTML = 'AREA';
+  var quit = document.createElement('h2');
+  quit.className = 'optionText';
+  quit.id = 'quit';
+  quit.innerHTML = 'QUIT';
+  var stats = document.createElement('div');
+  stats.className = 'stats';
+  var seen = document.createElement('h2');
+  seen.className = 'statsText';
+  seen.innerHTML = 'SEEN';
+  var num1 = document.createElement('h2');
+  num1.className = 'statNumber';
+  num1.innerHTML = '151';
+  var own = document.createElement('h2');
+  own.className = 'statsText';
+  own.innerHTML = 'OWN';
+  var num2 = document.createElement('h2');
+  num2.className = 'statNumber';
+  num2.innerHTML = '151';
+  display.appendChild(contents);
+  display.appendChild(content);
+  display.appendChild(divider);
+  display.appendChild(thinHorizontal);
+  display.appendChild(thickHorizontal);
+  display.appendChild(options);
+  options.appendChild(data);
+  options.appendChild(cry);
+  options.appendChild(area);
+  options.appendChild(quit);
+  display.appendChild(stats);
+  stats.appendChild(seen);
+  stats.appendChild(num1);
+  stats.appendChild(own);
+  stats.appendChild(num2);
+}
+
 function deleteContents () {
   var content = document.querySelector('.content');
   for (var i = 0; i < 7; i++) {
@@ -80,54 +140,96 @@ function deleteContents () {
 
 function deleteDescription () {
   var display = document.querySelector('.screen');
-  for (var i = 0; i < 5; i++) {
-    display.removeChild(display.childNodes[0]);
+  for (var i = 0; i < 4; i++) {
+    display.removeChild(display.childNodes[1]);
+  }
+}
+
+function deleteScreen () {
+  var display = document.querySelector('.screen');
+  for (var i = 0; i < 7; i++) {
+    display.removeChild(display.childNodes[1]);
   }
 }
 
 pokemonSet();
 
-document.body.addEventListener('keyup',function(event) {
-  var currentActive = document.querySelector('.active');
+var onDescriptionPage = false;
 
-  if (event.which === 40) {
-    var newActive = currentActive.nextSibling;
-    if (newActive === null && currentActive.className === 'pokemon active') {
-      currentOffset = Number(currentActive.id);
+document.body.addEventListener('keyup',function(event) {
+
+
+  if (onDescriptionPage === false) {
+
+    var currentActive = document.querySelector('.active');
+
+    if (event.which === 40) {
+      var newActive = currentActive.nextSibling;
+      var id = currentActive.id;
+      if (newActive === null && currentActive.className === 'pokemon active') {
+        currentOffset = Number(currentActive.id);
+        deleteContents();
+        pokemonSet();
+      } else if (id === 'data' || id === 'cry' || id === 'area' || id === 'quit') {
+        var optionActive = document.querySelector('#' + id);
+        var newOptionActive = optionActive.nextElementSibling;
+        if (optionActive.id === 'quit') {
+          newOptionActive = optionActive;
+        }
+        optionActive.className = 'optionText';
+        newOptionActive.className = 'optionText active';
+      } else {
+        currentActive.className = 'pokemon';
+        newActive.className = 'pokemon active';
+      }
+    }
+    else if (event.which === 38) {
+      var newActive = currentActive.previousSibling;
+      var id = currentActive.id;
+      if (currentActive.id === '1') {
+        newActive = currentActive;
+      } else if (id === 'data' || id === 'cry' || id === 'area' || id === 'quit') {
+        var optionActive = document.querySelector('#' + id);
+        var newOptionActive = optionActive.previousSibling;
+        if (optionActive.id === 'data' && newOptionActive === null) {
+          newOptionActive = optionActive;
+        }
+        optionActive.className = 'optionText';
+        newOptionActive.className = 'optionText active';
+      } else if (newActive === null) {
+        currentOffset = Number(currentActive.id) - 8;
+        deleteContents();
+        pokemonSet();
+      } else {
+        currentActive.className = 'pokemon';
+        newActive.className = 'pokemon active';
+      }
+    }
+    else if (event.which === 13) {
+      var newActive = document.querySelector('#data');
+      if (currentActive === newActive) {
+        onDescriptionPage = true;
+        deleteScreen();
+        pokemonDescription(selectedPokemon);
+      } else {
+        selectedPokemon = currentActive.id;
+        currentActive.className = '';
+        newActive.className = 'optionText active';
+      }
+    }
+    else if (event.which === 27) {
+      var active = document.querySelector('.active');
+      active.className = 'optionText';
       deleteContents();
       pokemonSet();
-    } else {
-      currentActive.className = 'pokemon';
-      newActive.className = 'pokemon active';
     }
-  }
-  else if (event.which === 38) {
-    var newActive = currentActive.previousSibling;
-    if (currentActive.id === '1') {
-      newActive = currentActive;
-    } else if (newActive === null) {
-      currentOffset = Number(currentActive.id) - 8;
-      deleteContents();
+
+  } else if (onDescriptionPage === true) {
+    if (event.which === 27) {
+      deleteDescription();
+      contentSet();
       pokemonSet();
-    } else {
-      currentActive.className = '';
-      newActive.className = 'active';
+      onDescriptionPage = false;
     }
-  }
-  else if (event.which === 13) {
-    var newActive = document.querySelector('#data');
-    if (currentActive === newActive) {
-      pokemonDescription(selectedPokemon);
-    } else {
-      selectedPokemon = currentActive.id;
-      currentActive.className = '';
-      newActive.className = 'optionText active';
-    }
-  }
-  else if (event.which === 27) {
-    var active = document.querySelector('.active');
-    active.className = 'optionText';
-    deleteContents();
-    pokemonSet();
   }
 });

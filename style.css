@@ -22,15 +22,17 @@ time, mark, audio, video {
 body {
   width:auto;
   height:850px;
+  position: relative;
 }
 
 .screen {
   height:432px;
   width:480px;
-  margin: 100px auto;
+  margin: 50px auto;
   border: 1px solid black;
   font-family: 'VT323';
-  position: relative;
+  position: absolute;
+  background-color: rgb(248,248,248);
 }
 
 h1 {
@@ -129,4 +131,24 @@ h3 {
   font-size: 38px;
   padding-left: 10px;
   height:190px;
+}
+
+.screenBorder {
+  position: absolute;
+  border-radius: 25px;
+  margin-top: 2%;
+  margin-left:2%;
+  height:600px;
+  width:600px;
+  padding-left: 120px;
+  background-color:#363A3D;
+}
+
+.gameboy {
+  position: fixed;
+  border-radius: 25px;
+  margin-left:28%;
+  height:975px;
+  width:750px;
+  background-color:teal;
 }
