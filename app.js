@@ -46,6 +46,15 @@ function pokemonDescription (selectedPokemon) {
     var sprite = document.createElement('img');
     sprite.src = res.sprites.front_default;
     display.appendChild(sprite);
+    var number = document.createElement('p');
+    if (selectedPokemon < 10) {
+      number.innerHTML = 'No. ' + '00' + selectedPokemon;
+    } else if (selectedPokemon < 100) {
+      number.innerHTML = 'No. ' + '0' + selectedPokemon;
+    } else {
+      number.innerHTML = 'No.' + selectedPokemon;
+    }
+    display.appendChild(number);
     var name = document.createElement('h1');
     name.innerHTML = res.name.toUpperCase();
     stats.appendChild(name);
@@ -140,15 +149,34 @@ function deleteContents () {
 
 function deleteDescription () {
   var display = document.querySelector('.screen');
-  for (var i = 0; i < 4; i++) {
-    display.removeChild(display.childNodes[1]);
+  var nodes = display.childNodes.length;
+  if (nodes === 1) {
+    for (var i = 0; i < 1; i++) {
+      display.removeChild(display.childNodes[0]);
+    }
+  } else if (nodes === 2) {
+    for (var i = 0; i < 2; i++) {
+      display.removeChild(display.childNodes[0]);
+    }
+  } else if (nodes === 3) {
+    for (var i = 0; i < 3; i++) {
+      display.removeChild(display.childNodes[0]);
+    }
+  } else if (nodes === 4) {
+    for (var i = 0; i < 4; i++) {
+      display.removeChild(display.childNodes[0]);
+    }
+  } else {
+    for (var i = 0; i < 5; i++) {
+      display.removeChild(display.childNodes[0]);
+    }
   }
 }
 
 function deleteScreen () {
   var display = document.querySelector('.screen');
   for (var i = 0; i < 7; i++) {
-    display.removeChild(display.childNodes[1]);
+    display.removeChild(display.childNodes[0]);
   }
 }
 
@@ -226,6 +254,88 @@ document.body.addEventListener('keyup',function(event) {
 
   } else if (onDescriptionPage === true) {
     if (event.which === 27) {
+      deleteDescription();
+      contentSet();
+      pokemonSet();
+      onDescriptionPage = false;
+    }
+  }
+});
+
+document.body.addEventListener('click',function(event) {
+
+  var down = document.querySelector('#down');
+  var up = document.querySelector('#up');
+  var a = document.querySelector('#aButton');
+  var b = document.querySelector('#bButton');
+
+  if (onDescriptionPage === false) {
+
+    var currentActive = document.querySelector('.active');
+
+    if (event.target === down) {
+      var newActive = currentActive.nextSibling;
+      var id = currentActive.id;
+      if (newActive === null && currentActive.className === 'pokemon active') {
+        currentOffset = Number(currentActive.id);
+        deleteContents();
+        pokemonSet();
+      } else if (id === 'data' || id === 'cry' || id === 'area' || id === 'quit') {
+        var optionActive = document.querySelector('#' + id);
+        var newOptionActive = optionActive.nextElementSibling;
+        if (optionActive.id === 'quit') {
+          newOptionActive = optionActive;
+        }
+        optionActive.className = 'optionText';
+        newOptionActive.className = 'optionText active';
+      } else {
+        currentActive.className = 'pokemon';
+        newActive.className = 'pokemon active';
+      }
+    }
+    else if (event.target === up) {
+      var newActive = currentActive.previousSibling;
+      var id = currentActive.id;
+      if (currentActive.id === '1') {
+        newActive = currentActive;
+      } else if (id === 'data' || id === 'cry' || id === 'area' || id === 'quit') {
+        var optionActive = document.querySelector('#' + id);
+        var newOptionActive = optionActive.previousSibling;
+        if (optionActive.id === 'data' && newOptionActive === null) {
+          newOptionActive = optionActive;
+        }
+        optionActive.className = 'optionText';
+        newOptionActive.className = 'optionText active';
+      } else if (newActive === null) {
+        currentOffset = Number(currentActive.id) - 8;
+        deleteContents();
+        pokemonSet();
+      } else {
+        currentActive.className = 'pokemon';
+        newActive.className = 'pokemon active';
+      }
+    }
+    else if (event.target === a) {
+      var newActive = document.querySelector('#data');
+      if (currentActive === newActive) {
+        onDescriptionPage = true;
+        deleteScreen();
+        pokemonDescription(selectedPokemon);
+      } else {
+        selectedPokemon = currentActive.id;
+        currentActive.className = '';
+        newActive.className = 'optionText active';
+      }
+    }
+    else if (event.target === b) {
+      var active = document.querySelector('.active');
+      active.className = 'optionText';
+      deleteContents();
+      pokemonSet();
+    }
+
+  } else if (onDescriptionPage === true) {
+    if (event.target === b) {
       deleteDescription();
       contentSet();
       pokemonSet();
