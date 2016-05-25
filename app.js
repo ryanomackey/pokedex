@@ -98,12 +98,12 @@ function pokemonDescription (selectedPokemon) {
     sprite.src = res.sprites.front_default;
     display.appendChild(sprite);
     var number = document.createElement('p');
-    if (selectedPokemon < 10) {
-      number.innerHTML = 'No. ' + '00' + selectedPokemon;
-    } else if (selectedPokemon < 100) {
-      number.innerHTML = 'No. ' + '0' + selectedPokemon;
+    if (res.id < 10) {
+      number.innerHTML = 'No. ' + '00' + res.id;
+    } else if (res.id < 100) {
+      number.innerHTML = 'No. ' + '0' + res.id;
     } else {
-      number.innerHTML = 'No.' + selectedPokemon;
+      number.innerHTML = 'No.' + res.id;
     }
     display.appendChild(number);
     var name = document.createElement('h1');
@@ -303,6 +303,7 @@ document.body.addEventListener('keyup',function(event) {
       }
     }
     else if (event.which === 13) {
+      var search = document.querySelector('#search')
       var newActive = document.querySelector('#data');
       var id = currentActive.id;
       if (currentActive === newActive) {
@@ -349,7 +350,9 @@ document.body.addEventListener('click',function(event) {
       var newActive = currentActive.nextSibling;
       var id = currentActive.id;
       if (newActive === null && currentOffset === 147) {
-        newActive = currentActive;
+        currentOffset = 0;
+        deleteContents();
+        pokemonSet();
       } else if (newActive === null && currentActive.className === 'pokemon active') {
         currentOffset = Number(currentActive.id);
         deleteContents();
@@ -371,7 +374,9 @@ document.body.addEventListener('click',function(event) {
       var newActive = currentActive.previousSibling;
       var id = currentActive.id;
       if (currentActive.id === '1') {
-        newActive = currentActive;
+        currentOffset = 147;
+        deleteContents();
+        pokemonSet();
       } else if (id === 'data' || id === 'cry' || id === 'area' || id === 'quit') {
         var optionActive = document.querySelector('#' + id);
         var newOptionActive = optionActive.previousSibling;
@@ -452,4 +457,36 @@ document.body.addEventListener('click',function(event) {
     gameboy.style.backgroundColor = '#41D2E2';
   }
 
+});
+
+var search = document.querySelector('#search');
+var input = document.querySelector('#searchInput');
+
+search.addEventListener('click', function(event) {
+  event.preventDefault();
+  selectedPokemon = input.value.toLowerCase();
+  if (onDescriptionPage === false) {
+    onDescriptionPage = true;
+    deleteScreen();
+  } else {
+    deleteDescription();
+  }
+  pokemonDescription(selectedPokemon);
+});
+
+var pokeball = document.querySelector('#pokeball');
+var searchField = document.querySelector('form');
+var searchFieldOut = false;
+
+pokeball.addEventListener('click', function(event) {
+  if (searchFieldOut === false) {
+    searchField.style.left = '0';
+    searchField.autofocus = 'true';
+    searchField.style.transitionDuration = '1s';
+    searchFieldOut = true;
+  } else {
+    searchField.style.left = '-395px';
+    searchField.style.transitionDuration = '1s';
+    searchFieldOut = false;
+  }
 });
