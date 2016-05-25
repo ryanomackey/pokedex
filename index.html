@@ -2,35 +2,46 @@
 <html>
 <head>
   <title>The Pokédex</title>
+  <link rel="icon" type="image" href="pokeball.png">
   <link href="style.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Kanit:900italic" rel='stylesheet' type='text/css'>
-  <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Kanit:900italic" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 </head>
 <body>
-  <div class="gameboy">
-    <div class="screenBorder">
-      <div class="screen"></div>
+  <div class="container">
+    <div class="gameboy">
+      <div class="screenBorder">
+        <div class="screen"></div>
+      </div>
+      <div id="oval">
+        <h1 id="gameboyLogo"><i>GAME BOY</i></h1>
+        <h1 id="colorC" class="color">C</h1>
+        <h1 id="colorO1" class="color">O</h1>
+        <h1 id="colorL" class="color">L</h1>
+        <h1 id="colorO2" class="color">O</h1>
+        <h1 id="colorR" class="color">R</h1>
+      </div>
+      <div id="up" class="dPad"></div>
+      <div id="right" class="dPad"></div>
+      <div id="down" class="dPad"></div>
+      <div id="left" class="dPad"></div>
+      <div id="center" class="dPad"></div>
+      <button id="aButton" class="button">A</button>
+      <button id="bButton" class="button">B</button>
+      <div class="led-red"></div>
+      <h4 class="power">POWER</h4>
+      <h4 class="curve">) ) )</h4>
     </div>
-    <div id="oval">
-      <h1 id="gameboyLogo"><i>GAME BOY</i></h1>
-      <h1 id="colorC" class="color">C</h1>
-      <h1 id="colorO1" class="color">O</h1>
-      <h1 id="colorL" class="color">L</h1>
-      <h1 id="colorO2" class="color">O</h1>
-      <h1 id="colorR" class="color">R</h1>
-    </div>
-    <div id="up" class="dPad"></div>
-    <div id="right" class="dPad"></div>
-    <div id="down" class="dPad"></div>
-    <div id="left" class="dPad"></div>
-    <div id="center" class="dPad"></div>
-    <button id="aButton" class="button">A</button>
-    <button id="bButton" class="button">B</button>
-    <div class="led-red"></div>
-    <h4 class="power">POWER</h4>
-    <h4 class="curve">) ) )</h4>
   </div>
+  <div class="backgroundMusic">
+    <audio id="backgroundMusic" controls loop="" autoplay="">
+      <source src="opening.m4a" type="audio/mp3">
+    </audio>
+    <i id="sound" class="fa fa-volume-up fa-3x" aria-hidden="true"></i>
+  </div>
+  <img id="pokeball" src="pokeball.png">
   <script src="app.js"></script>
 </body>
 </html>

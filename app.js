@@ -1,12 +1,17 @@
 "use strict";
 
+var music = document.getElementById('backgroundMusic');
+music.volume = '0.1';
+
 contentSet();
 
 function ajax (verb, url, handler) {
   var res = new XMLHttpRequest();
   res.onreadystatechange = function() {
-    if (res.readyState === 4 && res.status === 200) {
-      handler(JSON.parse(res.responseText));
+    if (res.readyState === 4) {
+      if (res.status === 200) {
+        handler(JSON.parse(res.responseText));
+      }
     }
   };
   res.open(verb, url);
@@ -15,26 +20,72 @@ function ajax (verb, url, handler) {
 
 var currentOffset = 0;
 
-var selectedPokemon;
+var selectedPokemon = 1;
 
 function pokemonSet () {
-  ajax('GET','https://pokeapi.co/api/v2/pokemon/?limit=7&offset=' + currentOffset, function(res) {
-    for (var i = 0; i < 7; i++) {
-      var h2Element = document.createElement('h2');
-      var content = document.querySelector('.content');
-      if (i === 0) {
-        h2Element.className = 'pokemon active';
-        h2Element.innerHTML = (i+1+currentOffset) +  ' ' + res.results[i].name.toUpperCase();
-        h2Element.id = (i+1+currentOffset);
-        content.appendChild(h2Element);
-      } else {
-        h2Element.className = 'pokemon';
-        h2Element.innerHTML = (i+1+currentOffset) +  ' ' + res.results[i].name.toUpperCase();
-        h2Element.id = (i+1+currentOffset);
-        content.appendChild(h2Element);
+  if (currentOffset === 147) {
+    ajax('GET','https://pokeapi.co/api/v2/pokemon/?limit=4&offset=' + currentOffset, function(res) {
+      for (var i = 0; i < 7; i++) {
+        var h2Element = document.createElement('h2');
+        var content = document.querySelector('.content');
+        var number = Number(i+1+currentOffset);
+        if (i === 0) {
+          h2Element.className = 'pokemon active';
+          if (number < 10) {
+            h2Element.innerHTML = '00' + (number) +  ' ' + res.results[i].name.toUpperCase();
+          } else if (number < 100) {
+            h2Element.innerHTML = '0' + (number) +  ' ' + res.results[i].name.toUpperCase();
+          } else {
+            h2Element.innerHTML = (number) +  ' ' + res.results[i].name.toUpperCase();
+          }
+          h2Element.id = (number);
+          content.appendChild(h2Element);
+        } else {
+          h2Element.className = 'pokemon';
+          if (number < 10) {
+            h2Element.innerHTML = '00' + (number) +  ' ' + res.results[i].name.toUpperCase();
+          } else if (number < 100) {
+            h2Element.innerHTML = '0' + (number) +  ' ' + res.results[i].name.toUpperCase();
+          } else {
+            h2Element.innerHTML = (number) +  ' ' + res.results[i].name.toUpperCase();
+          }
+          h2Element.id = (number);
+          content.appendChild(h2Element);
+        }
       }
-    }
-  });
+    });
+  } else {
+    ajax('GET','https://pokeapi.co/api/v2/pokemon/?limit=7&offset=' + currentOffset, function(res) {
+      for (var i = 0; i < 7; i++) {
+        var h2Element = document.createElement('h2');
+        var content = document.querySelector('.content');
+        var number = Number(i+1+currentOffset);
+        if (i === 0) {
+          h2Element.className = 'pokemon active';
+          if (number < 10) {
+            h2Element.innerHTML = '00' + (number) +  ' ' + res.results[i].name.toUpperCase();
+          } else if (number < 100) {
+            h2Element.innerHTML = '0' + (number) +  ' ' + res.results[i].name.toUpperCase();
+          } else {
+            h2Element.innerHTML = (number) +  ' ' + res.results[i].name.toUpperCase();
+          }
+          h2Element.id = (number);
+          content.appendChild(h2Element);
+        } else {
+          h2Element.className = 'pokemon';
+          if (number < 10) {
+            h2Element.innerHTML = '00' + (number) +  ' ' + res.results[i].name.toUpperCase();
+          } else if (number < 100) {
+            h2Element.innerHTML = '0' + (number) +  ' ' + res.results[i].name.toUpperCase();
+          } else {
+            h2Element.innerHTML = (number) +  ' ' + res.results[i].name.toUpperCase();
+          }
+          h2Element.id = (number);
+          content.appendChild(h2Element);
+        }
+      }
+    });
+  }
 }
 
 function pokemonDescription (selectedPokemon) {
@@ -62,10 +113,10 @@ function pokemonDescription (selectedPokemon) {
     genus.className = 'genus';
     stats.appendChild(genus);
     var height = document.createElement('h1');
-    height.innerHTML = 'HT ' + res.height;
+    height.innerHTML = 'HT ' + (Number(res.height) / 10) + 'm';
     stats.appendChild(height);
     var weight = document.createElement('h1');
-    weight.innerHTML = 'WT ' + res.weight;
+    weight.innerHTML = 'WT ' + (Number(res.weight) /10) + 'kg';
     stats.appendChild(weight);
   });
   var descDivider = document.createElement('div');
@@ -142,8 +193,15 @@ function contentSet() {
 
 function deleteContents () {
   var content = document.querySelector('.content');
-  for (var i = 0; i < 7; i++) {
-    content.removeChild(content.childNodes[0]);
+  var nodes = content.childNodes.length;
+  if (nodes === 4) {
+    for (var i = 0; i < 4; i++) {
+      content.removeChild(content.childNodes[0]);
+    }
+  } else {
+    for (var i = 0; i < 7; i++) {
+      content.removeChild(content.childNodes[0]);
+    }
   }
 }
 
@@ -194,7 +252,11 @@ document.body.addEventListener('keyup',function(event) {
     if (event.which === 40) {
       var newActive = currentActive.nextSibling;
       var id = currentActive.id;
-      if (newActive === null && currentActive.className === 'pokemon active') {
+      if (newActive === null && currentOffset === 147) {
+        currentOffset = 0;
+        deleteContents();
+        pokemonSet();
+      } else if (newActive === null && currentActive.className === 'pokemon active') {
         currentOffset = Number(currentActive.id);
         deleteContents();
         pokemonSet();
@@ -215,7 +277,9 @@ document.body.addEventListener('keyup',function(event) {
       var newActive = currentActive.previousSibling;
       var id = currentActive.id;
       if (currentActive.id === '1') {
-        newActive = currentActive;
+        currentOffset = 147;
+        deleteContents();
+        pokemonSet();
       } else if (id === 'data' || id === 'cry' || id === 'area' || id === 'quit') {
         var optionActive = document.querySelector('#' + id);
         var newOptionActive = optionActive.previousSibling;
@@ -224,6 +288,11 @@ document.body.addEventListener('keyup',function(event) {
         }
         optionActive.className = 'optionText';
         newOptionActive.className = 'optionText active';
+      } else if (newActive === null && currentOffset === 147) {
+        console.log(currentOffset);
+        currentOffset = 140;
+        deleteContents();
+        pokemonSet();
       } else if (newActive === null) {
         currentOffset = Number(currentActive.id) - 8;
         deleteContents();
@@ -235,10 +304,13 @@ document.body.addEventListener('keyup',function(event) {
     }
     else if (event.which === 13) {
       var newActive = document.querySelector('#data');
+      var id = currentActive.id;
       if (currentActive === newActive) {
         onDescriptionPage = true;
         deleteScreen();
         pokemonDescription(selectedPokemon);
+      } else if (id === 'cry' || id === 'area' || id === 'quit') {
+
       } else {
         selectedPokemon = currentActive.id;
         currentActive.className = '';
@@ -276,7 +348,9 @@ document.body.addEventListener('click',function(event) {
     if (event.target === down) {
       var newActive = currentActive.nextSibling;
       var id = currentActive.id;
-      if (newActive === null && currentActive.className === 'pokemon active') {
+      if (newActive === null && currentOffset === 147) {
+        newActive = currentActive;
+      } else if (newActive === null && currentActive.className === 'pokemon active') {
         currentOffset = Number(currentActive.id);
         deleteContents();
         pokemonSet();
@@ -306,6 +380,11 @@ document.body.addEventListener('click',function(event) {
         }
         optionActive.className = 'optionText';
         newOptionActive.className = 'optionText active';
+      } else if (newActive === null && currentOffset === 147) {
+        console.log(currentOffset);
+        currentOffset = 140;
+        deleteContents();
+        pokemonSet();
       } else if (newActive === null) {
         currentOffset = Number(currentActive.id) - 8;
         deleteContents();
@@ -317,10 +396,13 @@ document.body.addEventListener('click',function(event) {
     }
     else if (event.target === a) {
       var newActive = document.querySelector('#data');
+      var id = currentActive.id;
       if (currentActive === newActive) {
         onDescriptionPage = true;
         deleteScreen();
         pokemonDescription(selectedPokemon);
+      } else if (id === 'cry' || id === 'area' || id === 'quit') {
+
       } else {
         selectedPokemon = currentActive.id;
         currentActive.className = '';
@@ -342,4 +424,32 @@ document.body.addEventListener('click',function(event) {
       onDescriptionPage = false;
     }
   }
+
+  var gameboy = document.querySelector('.gameboy');
+  var berry = document.querySelector('#colorC');
+  var grape = document.querySelector('#colorO1');
+  var kiwi = document.querySelector('#colorL');
+  var dandelion = document.querySelector('#colorO2');
+  var teal = document.querySelector('#colorR');
+
+  if(event.target === berry) {
+    gameboy.style.backgroundColor = '#F63375';
+  }
+
+  if(event.target === grape) {
+    gameboy.style.backgroundColor = '#4B44A7';
+  }
+
+  if(event.target === kiwi) {
+    gameboy.style.backgroundColor = '#CFFB59';
+  }
+
+  if(event.target === dandelion) {
+    gameboy.style.backgroundColor = '#F0C738';
+  }
+
+  if(event.target === teal) {
+    gameboy.style.backgroundColor = '#41D2E2';
+  }
+
 });
