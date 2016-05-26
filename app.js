@@ -302,7 +302,6 @@ document.body.addEventListener('keyup',function(event) {
         optionActive.className = 'optionText';
         newOptionActive.className = 'optionText active';
       } else if (newActive === null && currentOffset === 147) {
-        console.log(currentOffset);
         currentOffset = 140;
         deleteContents();
         pokemonSet();
@@ -316,7 +315,6 @@ document.body.addEventListener('keyup',function(event) {
       }
     }
     else if (event.which === 13) {
-      var search = document.querySelector('#search')
       var newActive = document.querySelector('#data');
       var id = currentActive.id;
       if (currentActive === newActive) {
@@ -328,7 +326,7 @@ document.body.addEventListener('keyup',function(event) {
         deleteScreen();
         map();
       } else if (id === 'cry' || id === 'quit') {
-
+        currentActive.className = 'optionText active';
       } else {
         selectedPokemon = currentActive.id;
         currentActive.className = '';
@@ -413,7 +411,6 @@ document.body.addEventListener('click',function(event) {
         optionActive.className = 'optionText';
         newOptionActive.className = 'optionText active';
       } else if (newActive === null && currentOffset === 147) {
-        console.log(currentOffset);
         currentOffset = 140;
         deleteContents();
         pokemonSet();
@@ -438,7 +435,7 @@ document.body.addEventListener('click',function(event) {
         deleteScreen();
         map();
       } else if (id === 'cry' || id === 'quit') {
-
+        currentActive.className = 'optionText active';
       } else {
         selectedPokemon = currentActive.id;
         currentActive.className = '';
@@ -519,7 +516,7 @@ var pokeball = document.querySelector('#pokeball');
 var searchField = document.querySelector('form');
 var searchFieldOut = false;
 
-pokeball.addEventListener('click', function(event) {
+pokeball.addEventListener('click', function() {
   if (searchFieldOut === false) {
     searchField.style.left = '0';
     searchField.autofocus = 'true';
@@ -549,11 +546,4 @@ function map () {
 function deleteMap() {
   var display = document.querySelector('.screen');
   display.removeChild(display.childNodes[0]);
-}
-
-function deleteInvalid() {
-  var form = document.querySelector('form');
-  if (form.childNodes === 4) {
-    form.removeChild(form.childNodes[4]);
-  }
 }
