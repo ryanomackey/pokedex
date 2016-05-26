@@ -20,7 +20,6 @@ time, mark, audio, video {
 }
 
 body {
-  width:auto;
   height:100%;
   position: relative;
 	background-color: #FFE74C;
@@ -373,7 +372,6 @@ form {
 
 #spoof {
 	position: absolute;
-	background-color: #FFE74C;
 	height:80px;
 	width:50px;
 	z-index: 9999;
@@ -414,4 +412,63 @@ form {
 	font-size: 18px;
 	width:125px;
 	display: none;
+}
+
+@media screen and (max-height: 920px) {
+	#up {
+		bottom:250px;
+		left:155px;
+	}
+	#down {
+		left:155px;
+		bottom:150px;
+	}
+
+	#left {
+		bottom:200px;
+		left:105px;
+		box-shadow: 2px 0 5px black;
+	}
+
+	#right {
+		bottom:200px;
+		left:205px;
+		box-shadow: 2px 0px 5px black;
+	}
+
+	#center {
+		bottom:200px;
+		left:155px;
+		box-shadow: none;
+	}
+
+	#aButton {
+		bottom:210px;
+		right:120px;
+		outline:none;
+	}
+
+	#bButton {
+		bottom:170px;
+		right:225px;
+		outline:none;
+	}
+}
+
+@media screen and (max-width:1110px) {
+	.container {
+		margin-left:80px;
+	}
+}
+
+@media screen and (max-width:885px) {
+	.container {
+		margin-left:0px;
+	}
+}
+
+@media screen and (min-width:1111px) {
+	#spoof {
+		background-color: #FFE74C
+	}
 }
