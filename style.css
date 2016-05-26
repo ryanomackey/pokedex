@@ -340,7 +340,6 @@ audio {
 	left:5px;
 	height:75px;
 	width:75px;
-	z-index: 1;
 }
 
 input {
@@ -368,12 +367,34 @@ input {
 }
 
 form {
-	position: relative;;
+	position: absolute;
 	left:-395px;
 }
 
 #spoof {
+	position: absolute;
 	background-color: #FFE74C;
 	height:80px;
 	width:50px;
+	z-index: 9999;
+}
+
+#leftLine {
+	position: absolute;
+	width:1px;
+	height:330px;
+	background-color: black;
+	left:130px;
+	bottom:0px;
+	z-index: -1;
+}
+
+#rightLine {
+	position: absolute;
+	width:1px;
+	height:330px;
+	background-color: black;
+	left:615px;
+	bottom:0px;
+	z-index: -1;
 }

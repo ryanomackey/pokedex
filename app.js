@@ -93,11 +93,21 @@ function pokemonDescription (selectedPokemon) {
   var stats = document.createElement('div');
   stats.className = 'descStats';
   display.appendChild(stats);
+  var sprite = document.createElement('img');
+  display.appendChild(sprite);
+  var number = document.createElement('p');
+  display.appendChild(number);
+  var name = document.createElement('h1');
+  stats.appendChild(name);
+  var genus = document.createElement('h1');
+  genus.className = 'genus';
+  stats.appendChild(genus);
+  var height = document.createElement('h1');
+  stats.appendChild(height);
+  var weight = document.createElement('h1');
+  stats.appendChild(weight);
   ajax ('GET', 'https://pokeapi.co/api/v2/pokemon/' + selectedPokemon, function (res) {
-    var sprite = document.createElement('img');
     sprite.src = res.sprites.front_default;
-    display.appendChild(sprite);
-    var number = document.createElement('p');
     if (res.id < 10) {
       number.innerHTML = 'No. ' + '00' + res.id;
     } else if (res.id < 100) {
@@ -105,19 +115,9 @@ function pokemonDescription (selectedPokemon) {
     } else {
       number.innerHTML = 'No.' + res.id;
     }
-    display.appendChild(number);
-    var name = document.createElement('h1');
     name.innerHTML = res.name.toUpperCase();
-    stats.appendChild(name);
-    var genus = document.createElement('h1');
-    genus.className = 'genus';
-    stats.appendChild(genus);
-    var height = document.createElement('h1');
     height.innerHTML = 'HT ' + (Number(res.height) / 10) + 'm';
-    stats.appendChild(height);
-    var weight = document.createElement('h1');
     weight.innerHTML = 'WT ' + (Number(res.weight) /10) + 'kg';
-    stats.appendChild(weight);
   });
   var descDivider = document.createElement('div');
   descDivider.className = 'descDivider';
@@ -241,11 +241,12 @@ function deleteScreen () {
 pokemonSet();
 
 var onDescriptionPage = false;
+var onMapPage = false;
 
 document.body.addEventListener('keyup',function(event) {
 
 
-  if (onDescriptionPage === false) {
+  if (onDescriptionPage === false && onMapPage === false) {
 
     var currentActive = document.querySelector('.active');
 
@@ -310,7 +311,11 @@ document.body.addEventListener('keyup',function(event) {
         onDescriptionPage = true;
         deleteScreen();
         pokemonDescription(selectedPokemon);
-      } else if (id === 'cry' || id === 'area' || id === 'quit') {
+      } else if (id === 'area') {
+        onMapPage = true;
+        deleteScreen();
+        map();
+      } else if (id === 'cry' || id === 'quit') {
 
       } else {
         selectedPokemon = currentActive.id;
@@ -333,6 +338,16 @@ document.body.addEventListener('keyup',function(event) {
       onDescriptionPage = false;
     }
   }
+
+  else if (onMapPage === true) {
+    if (event.which === 27) {
+      onMapPage = false;
+      deleteMap();
+      contentSet();
+      pokemonSet();
+    }
+  }
+
 });
 
 document.body.addEventListener('click',function(event) {
@@ -342,7 +357,7 @@ document.body.addEventListener('click',function(event) {
   var a = document.querySelector('#aButton');
   var b = document.querySelector('#bButton');
 
-  if (onDescriptionPage === false) {
+  if (onDescriptionPage === false && onMapPage === false) {
 
     var currentActive = document.querySelector('.active');
 
@@ -406,7 +421,11 @@ document.body.addEventListener('click',function(event) {
         onDescriptionPage = true;
         deleteScreen();
         pokemonDescription(selectedPokemon);
-      } else if (id === 'cry' || id === 'area' || id === 'quit') {
+      } else if (id === 'area') {
+        onMapPage = true;
+        deleteScreen();
+        map();
+      } else if (id === 'cry' || id === 'quit') {
 
       } else {
         selectedPokemon = currentActive.id;
@@ -420,8 +439,9 @@ document.body.addEventListener('click',function(event) {
       deleteContents();
       pokemonSet();
     }
+  }
 
-  } else if (onDescriptionPage === true) {
+  else if (onDescriptionPage === true) {
     if (event.target === b) {
       deleteDescription();
       contentSet();
@@ -429,6 +449,15 @@ document.body.addEventListener('click',function(event) {
       onDescriptionPage = false;
     }
   }
+
+  else if (onMapPage === true) {
+      if (event.target === b) {
+        onMapPage = false;
+        deleteMap();
+        contentSet();
+        pokemonSet();
+      }
+    }
 
   var gameboy = document.querySelector('.gameboy');
   var berry = document.querySelector('#colorC');
@@ -483,10 +512,29 @@ pokeball.addEventListener('click', function(event) {
     searchField.style.left = '0';
     searchField.autofocus = 'true';
     searchField.style.transitionDuration = '1s';
+    pokeball.style.transform = 'rotate(360deg)';
+    pokeball.style.transitionDuration = '1s';
     searchFieldOut = true;
   } else {
     searchField.style.left = '-395px';
     searchField.style.transitionDuration = '1s';
+    pokeball.style.transform = 'rotate(-360deg)';
+    pokeball.style.transitionDuration = '1s';
     searchFieldOut = false;
   }
 });
+
+function map () {
+  var display = document.querySelector('.screen');
+  var image = document.createElement('img');
+  image.src = 'map.png';
+  image.style.marginLeft = '0';
+  image.style.width = '480px';
+  image.style.height= '432px';
+  display.appendChild(image);
+}
+
+function deleteMap() {
+  var display = document.querySelector('.screen');
+  display.removeChild(display.childNodes[0]);
+}
