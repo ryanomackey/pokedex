@@ -398,3 +398,20 @@ form {
 	bottom:0px;
 	z-index: -1;
 }
+
+.description {
+	position: absolute;
+	bottom:0;
+	left:0;
+}
+
+#invalid {
+	color:red;
+	position: absolute;
+	top:75px;
+	left:15px;
+	font-family: sans-serif;
+	font-size: 18px;
+	width:125px;
+	display: none;
+}

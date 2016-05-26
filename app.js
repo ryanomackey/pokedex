@@ -11,6 +11,8 @@ function ajax (verb, url, handler) {
     if (res.readyState === 4) {
       if (res.status === 200) {
         handler(JSON.parse(res.responseText));
+      } else if (res.status === 404 || res.status === 500) {
+        handler(res);
       }
     }
   };
@@ -106,27 +108,37 @@ function pokemonDescription (selectedPokemon) {
   stats.appendChild(height);
   var weight = document.createElement('h1');
   stats.appendChild(weight);
-  ajax ('GET', 'https://pokeapi.co/api/v2/pokemon/' + selectedPokemon, function (res) {
-    sprite.src = res.sprites.front_default;
-    if (res.id < 10) {
-      number.innerHTML = 'No. ' + '00' + res.id;
-    } else if (res.id < 100) {
-      number.innerHTML = 'No. ' + '0' + res.id;
-    } else {
-      number.innerHTML = 'No.' + res.id;
-    }
-    name.innerHTML = res.name.toUpperCase();
-    height.innerHTML = 'HT ' + (Number(res.height) / 10) + 'm';
-    weight.innerHTML = 'WT ' + (Number(res.weight) /10) + 'kg';
-  });
+  var description = document.createElement('h3');
+  description.className = 'description';
+  display.appendChild(description);
   var descDivider = document.createElement('div');
   descDivider.className = 'descDivider';
   display.appendChild(descDivider);
+  var invalid = document.querySelector('#searchInput');
+  ajax ('GET', 'https://pokeapi.co/api/v2/pokemon/' + selectedPokemon, function (res) {
+    if (res.status === 404 || res.status === 500) {
+      invalid.value = 'Invalid Entry.';
+      deleteDescription();
+      onDescriptionPage = false;
+      contentSet();
+      pokemonSet();
+    } else {
+      sprite.src = res.sprites.front_default;
+      if (res.id < 10) {
+        number.innerHTML = 'No. ' + '00' + res.id;
+      } else if (res.id < 100) {
+        number.innerHTML = 'No. ' + '0' + res.id;
+      } else {
+        number.innerHTML = 'No.' + res.id;
+      }
+      name.innerHTML = res.name.toUpperCase();
+      height.innerHTML = 'HT ' + (Number(res.height) / 10) + 'm';
+      weight.innerHTML = 'WT ' + (Number(res.weight) /10) + 'kg';
+    }
+  });
   ajax ('GET', 'https://pokeapi.co/api/v2/pokemon-species/' + selectedPokemon, function (res) {
     document.querySelector('.genus').innerHTML = res.genera[0].genus.toUpperCase();
-    var description = document.createElement('h3');
     description.innerHTML = res.flavor_text_entries[53].flavor_text;
-    display.appendChild(description);
   });
 }
 
@@ -537,4 +549,11 @@ function map () {
 function deleteMap() {
   var display = document.querySelector('.screen');
   display.removeChild(display.childNodes[0]);
+}
+
+function deleteInvalid() {
+  var form = document.querySelector('form');
+  if (form.childNodes === 4) {
+    form.removeChild(form.childNodes[4]);
+  }
 }
