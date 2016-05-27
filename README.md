@@ -23,3 +23,5 @@ As a bit of an Easter Egg, users can also click any of the letters in the word �
 I’d like to thank the students and staff of Galvanize for their help and support, as well as the people over at the PokeAPI for providing a wonderful API for me to work with.
 
 And of course, a big thank you to Pokémon’s developer’s Game Freak, and publisher Nintendo for providing me with hours of entertainment as a child, and a very happy 20th anniversary to Pokémon.
+
+![Caption](./screenshot.png)
